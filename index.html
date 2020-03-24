@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Bazar List</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+	<style>
+		.content{
+			padding-top: 10%;
+		}
+	</style>
+</head>
+<body>
+	<div class="container" id="app">
+		<div class="row">
+			<div class="col-md-4 offset-4 content">
+				<h2 class="text-center">Bazar List</h2>
+				<form @submit.prevent="addItem()">
+					<input type="text" class="form-control" v-model="newList">
+					<p>{{newList}}</p>
+				</form>
+				<hr>
+				<ul class="list-group">
+					<li v-for="(item,index) in items" class="list-group-item">
+							<button class="btn btn-danger btn-sm" @click="removeItem(index)">X</button>
+						{{item.name}} - <input type="text" v-model="item.price">
+					
+					</li>
+					<li class="list-group-item">Total = {{Total}}</li>
+				</ul>
+			</div>
+		</div>
+		
+	</div>
+</body>
+<script>
+	var app=new Vue({
+		el:'#app',
+		data:{
+			
+			items:[
+				{name:'Potato', price:25.20},
+				{name:'Orange', price:125.20},
+				{name:'Tomato', price:20.20},
+			],
+			newList:"",
+		},
+		methods:{
+			addItem:function(){
+				this.items.push({
+					name:this.newList,
+					price:0.0
+				});
+			},
+			removeItem(index){
+				this.items.splice(index,1);
+			}
+		},
+		computed:{
+			Total(){
+				var total=0;
+				this.items.forEach(item=>{
+					total +=parseFloat(item.price);
+				});
+				return total;
+			}
+		},
+	})
+</script>
+</html>
